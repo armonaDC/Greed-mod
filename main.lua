@@ -20,17 +20,29 @@ end
 
 function mod:StartMod()
     mod:Teleport(bossItemRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    mod:FindAndPrintItems()
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Next1)
+end
 
+function mod:Next1()
     mod:Teleport(treasureRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    mod:FindAndPrintItems()
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Next2)
+end
 
+function mod:Next2()
     mod:Teleport(shopRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    mod:FindAndPrintItems()
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Next3)
+end
 
+function mod:Next3()
     mod:Teleport(curseRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    mod:FindAndPrintItems()
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Final)
+end
 
+function mod:Final()
     mod:Teleport(startRoomIndex)
 end
 
