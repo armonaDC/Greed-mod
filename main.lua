@@ -20,16 +20,16 @@ end
 
 function mod:StartMod()
     mod:Teleport(bossItemRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
     mod:Teleport(treasureRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
     mod:Teleport(shopRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
     mod:Teleport(curseRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
     mod:Teleport(startRoomIndex)
 end
@@ -45,7 +45,7 @@ function mod:PrintItems(table)
 end
 
 if game:GetLevel():GetAbsoluteStage() == LevelStage.STAGE1_GREED then
-    mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.StartMod)
+    mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, mod.StartMod)
 end
 
 -- player:SetFullHearts() is the same as player.SetFullHearts(player)
