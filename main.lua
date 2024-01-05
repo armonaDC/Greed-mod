@@ -37,7 +37,8 @@ function mod:printItems(table)
     end
 end
 
-mod:AddCallback(ModCallbacks.LevelStage.STAGE1_GREED, mod.checkItems) -- this tells my mod to look for the level/stage to be floor 1 of greed mode then run the function checkItems
-
+if game:GetLevel():GetAbsoluteStage() == LevelStage.STAGE1_GREED then
+    mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.checkItems)
+end
 
 -- player:SetFullHearts() is the same as player.SetFullHearts(player)
