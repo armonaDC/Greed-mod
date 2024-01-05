@@ -15,17 +15,29 @@ function mod:TeleportAndCheckItems(roomIndex)
     return ItemTable --lists start from ONE in lua
 end
 
--- if startRoomIndex ~= game:GetLevel():GetCurrentRoomIndex() then -- probably turn this into a callback 
---     --insert function that turns off display here
--- end
+function mod:checkItems()
+    local bossItem = mod:TeleportAndCheckItems(bossItemRoomIndex)
+    local treasureItem = mod:TeleportAndCheckItems(treasureRoomIndex)
+    local shopItem = mod:TeleportAndCheckItems(shopRoomIndex)
+    local curseItem = mod:TeleportAndCheckItems(curseRoomIndex)
+
+    game:StartRoomTransition(startRoomIndex,Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, game:GetPlayer(0), -1) --teleport isaac to starting room
+
+    mod:printItems(bossItem)
+    mod:printItems(treasureItem)
+    mod:printItems(shopItem)
+    mod:printItems(curseItem)
+end
+
+function mod:printItems(table)
+    for i=1,4 do
+        if table[i] ~= nil then
+            print(table[i].Subtype)
+        end
+    end
+end
 
 mod:AddCallback(ModCallbacks.LevelStage.STAGE1_GREED, mod.checkItems) -- this tells my mod to look for the level/stage to be floor 1 of greed mode then run the function checkItems
 
 
 -- player:SetFullHearts() is the same as player.SetFullHearts(player)
-
--- for i=1,9 do
---     if Table[i] ~= nil then
---         print(Table[i].Subtype)
---     end 
--- end
