@@ -8,37 +8,45 @@ local shopRoomIndex = game:GetLevel():QueryRoomTypeIndex(RoomType.ROOM_SHOP, fal
 local curseRoomIndex = game:GetLevel():QueryRoomTypeIndex(RoomType.ROOM_CURSE, false, rng, false)
 local bossItemRoomIndex = 98 --value found from in game console
 
-function mod:TeleportAndCheckItems(roomIndex)
+function mod:Teleport(roomIndex)
     game:StartRoomTransition(roomIndex,Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, game:GetPlayer(0), -1) --teleports isaac to room index
-    local ItemTable = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, -1, false, false) --finds collectibles in room and puts them in an array "table" in lua
-
-    return ItemTable --lists start from ONE in lua
 end
 
-function mod:checkItems()
-    local bossItem = mod:TeleportAndCheckItems(bossItemRoomIndex)
-    local treasureItem = mod:TeleportAndCheckItems(treasureRoomIndex)
-    local shopItem = mod:TeleportAndCheckItems(shopRoomIndex)
-    local curseItem = mod:TeleportAndCheckItems(curseRoomIndex)
-
-    game:StartRoomTransition(startRoomIndex,Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, game:GetPlayer(0), -1) --teleport isaac to starting room
-
-    mod:printItems(bossItem)
-    mod:printItems(treasureItem)
-    mod:printItems(shopItem)
-    mod:printItems(curseItem)
+function mod:FindAndPrintItems()
+    local itemTable = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, -1, false, false)
+    --finds collectibles in a room and puts them in an array or "table" in lua
+    mod:PrintItems(itemTable) --prints collectibleID to game console
 end
 
-function mod:printItems(table)
-    for i=1,4 do
-        if table[i] ~= nil then
+function mod:StartMod()
+    mod:Teleport(bossItemRoomIndex)
+    mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.FindAndPrintItems)
+
+    mod:Teleport(treasureRoomIndex)
+    mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.FindAndPrintItems)
+
+    mod:Teleport(shopRoomIndex)
+    mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.FindAndPrintItems)
+
+    mod:Teleport(curseRoomIndex)
+    mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, mod.FindAndPrintItems)
+
+    mod:Teleport(startRoomIndex)
+end
+
+function mod:PrintItems(table)
+    for i=1,4 do --lua starts counting from 1, checking up to 4 pedestal items but idk if this is even possible
+        if table[i] ~= nil then --check to make sure something exists at that index
             print(table[i].Subtype)
+            --prints entity subtype only, we know that the Type is a pickup, and that the variant is a collectible due to Isaac.FindByType parameters we set
+            --the subtype number will correspond to the CollectibleID for the item
         end
     end
 end
 
 if game:GetLevel():GetAbsoluteStage() == LevelStage.STAGE1_GREED then
-    mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.checkItems)
+    mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.StartMod)
 end
 
 -- player:SetFullHearts() is the same as player.SetFullHearts(player)
+-- "collectible" just means it is a pedestal item
