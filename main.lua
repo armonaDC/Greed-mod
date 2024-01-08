@@ -1,6 +1,7 @@
 local mod = RegisterMod("Greed mod", 1)
-local scheduler = require("./scheduler.lua") --import scheduler lua file
-scheduler.Init(mod)
+local Scheduler = require("./scheduler.lua") --import scheduler lua file
+Scheduler.Init(mod)
+ONE_SECOND = 30 --one second in game is 30 frames, used for scheduler
 
 local rng = RNG() --rng object used for QueryRoomTypeIndex
 local startRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_DEFAULT, false, rng, false) --room type found from in Game() console
@@ -38,19 +39,19 @@ end
 function mod:StartMod()
     print("Aperture's Greed Mod Started")
     --AddCallback does not allow function parameters, so each function called must have no arguments 
-    scheduler.Schedule(30, mod.TeleportToBossItemRoom)
-    scheduler.Schedule(30, mod.FindAndPrintItems)
+    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToBossItemRoom)
+    Scheduler.Schedule(ONE_SECOND * 5, mod.FindAndPrintItems)
 
-    scheduler.Schedule(30, mod.TeleportToTreasureRoom)
-    scheduler.Schedule(30, mod.FindAndPrintItems)
+    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToTreasureRoom)
+    Scheduler.Schedule(ONE_SECOND * 5, mod.FindAndPrintItems)
 
-    scheduler.Schedule(30, mod.TeleportToShop)
-    scheduler.Schedule(30, mod.FindAndPrintItems)
+    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToShop)
+    Scheduler.Schedule(ONE_SECOND * 5, mod.FindAndPrintItems)
 
-    scheduler.Schedule(30, mod.TeleportToCurseRoom)
-    scheduler.Schedule(30, mod.FindAndPrintItems)
+    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToCurseRoom)
+    Scheduler.Schedule(ONE_SECOND * 5, mod.FindAndPrintItems)
 
-    scheduler.Schedule(30, mod.TeleportToStartRoom)
+    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToStartRoom)
     print("Aperture's Greed Mod Ended")
 end
 
