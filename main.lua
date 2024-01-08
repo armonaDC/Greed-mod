@@ -35,20 +35,21 @@ end
 
 function mod:StartMod()
     print("Aperture's Greed Mod Started")
+    --POST_RENDER AFTER POST_UPDATE
     -- NEW_ROOM triggers before POST_UPDATE
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToBossItemRoom)
-    mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToTreasureRoom)
-    mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.TeleportToTreasureRoom)
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToShop)
-    mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.TeleportToShop)
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToCurseRoom)
-    mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.TeleportToCurseRoom)
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToStartRoom)
+    mod:AddCallback(ModCallbacks.MC_POST_RENDER, mod.TeleportToStartRoom)
     print("Aperture's Greed Mod Ended")
 end
 
