@@ -6,14 +6,25 @@ local treasureRoomIndex = 85 --value found from in Game() console
 local shopRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_SHOP, false, rng, false)
 local curseRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_CURSE, false, rng, false)
 local bossItemRoomIndex = 98 --value found from in Game() console
--- BossRoomVisited = false
--- TreasureRoomVisited = false
 
-function mod:Teleport(roomIndex)
-    Game():StartRoomTransition(roomIndex, Direction.DOWN, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1) --teleports isaac to room index
+function mod:TeleportToBossItemRoom()
+    Game():StartRoomTransition(bossItemRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1) --teleports isaac to boss item room
+end
 
-    -- if Game():GetLevel():GetRoomByIdx(98, -1) then BossRoomVisited = true end
-    -- if Game():GetLevel():GetRoomByIdx(85, -1) then TreasureRoomVisited = true end
+function mod:TeleportToTreasureRoom()
+    Game():StartRoomTransition(treasureRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1)
+end
+
+function mod:TeleportToShop()
+    Game():StartRoomTransition(shopRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1)
+end
+
+function mod:TeleportToCurseRoom()
+    Game():StartRoomTransition(curseRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1)
+end
+
+function mod:TeleportToStartRoom()
+    Game():StartRoomTransition(startRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1)
 end
 
 function mod:FindAndPrintItems()
@@ -25,19 +36,19 @@ end
 function mod:StartMod()
     print("Aperture's Greed Mod Started")
     -- NEW_ROOM triggers before POST_UPDATE
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(bossItemRoomIndex))
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToBossItemRoom)
     mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(treasureRoomIndex))
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToTreasureRoom)
     mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(shopRoomIndex))
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToShop)
     mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(curseRoomIndex))
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToCurseRoom)
     mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(startRoomIndex))
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToStartRoom)
     print("Aperture's Greed Mod Ended")
 end
 
