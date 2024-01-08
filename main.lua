@@ -38,28 +38,19 @@ end
 function mod:StartMod()
     print("Aperture's Greed Mod Started")
     --AddCallback does not allow function parameters, so each function called must have no arguments 
-    scheduler.Schedule(2)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToBossItemRoom)
-    scheduler.Schedule(2)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
-    scheduler.Schedule(2)
+    scheduler.Schedule(30, mod.TeleportToBossItemRoom)
+    scheduler.Schedule(30, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToTreasureRoom)
-    scheduler.Schedule(2)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
-    scheduler.Schedule(2)
+    scheduler.Schedule(30, mod.TeleportToTreasureRoom)
+    scheduler.Schedule(30, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToShop)
-    scheduler.Schedule(2)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
-    scheduler.Schedule(2)
+    scheduler.Schedule(30, mod.TeleportToShop)
+    scheduler.Schedule(30, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToCurseRoom)
-    scheduler.Schedule(2)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
-    scheduler.Schedule(2)
+    scheduler.Schedule(30, mod.TeleportToCurseRoom)
+    scheduler.Schedule(30, mod.FindAndPrintItems)
 
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToStartRoom)
+    scheduler.Schedule(30, mod.TeleportToStartRoom)
     print("Aperture's Greed Mod Ended")
 end
 
