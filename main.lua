@@ -1,4 +1,6 @@
 local mod = RegisterMod("Greed mod", 1)
+local scheduler = require("./scheduler.lua") --import scheduler lua file
+scheduler.Init(mod)
 
 local rng = RNG() --rng object used for QueryRoomTypeIndex
 local startRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_DEFAULT, false, rng, false) --room type found from in Game() console
@@ -36,17 +38,26 @@ end
 function mod:StartMod()
     print("Aperture's Greed Mod Started")
     --AddCallback does not allow function parameters, so each function called must have no arguments 
+    scheduler.Schedule(2)
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToBossItemRoom)
+    scheduler.Schedule(2)
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    scheduler.Schedule(2)
 
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToTreasureRoom)
+    scheduler.Schedule(2)
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    scheduler.Schedule(2)
 
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToShop)
+    scheduler.Schedule(2)
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    scheduler.Schedule(2)
 
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToCurseRoom)
+    scheduler.Schedule(2)
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    scheduler.Schedule(2)
 
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.TeleportToStartRoom)
     print("Aperture's Greed Mod Ended")
