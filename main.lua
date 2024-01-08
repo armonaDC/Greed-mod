@@ -9,7 +9,7 @@ local curseRoomIndex = game:GetLevel():QueryRoomTypeIndex(RoomType.ROOM_CURSE, f
 local bossItemRoomIndex = 98 --value found from in game console
 
 function mod:Teleport(roomIndex)
-    game:StartRoomTransition(roomIndex,Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, game:GetPlayer(0), -1) --teleports isaac to room index
+    game:StartRoomTransition(roomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, game:GetPlayer(0), -1) --teleports isaac to room index
 end
 
 function mod:FindAndPrintItems()
@@ -44,9 +44,13 @@ function mod:PrintItems(table)
     end
 end
 
-if game:GetLevel():GetAbsoluteStage() == LevelStage.STAGE1_GREED then
-    mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, mod.StartMod)
+function mod:ConditionToStartMod()
+    if ((game:GetLevel():GetStage() == 1) and (game:IsGreedMode() == true)) then
+        mod:StartMod()
+    end
 end
+
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.ConditionToStartMod)
 
 -- player:SetFullHearts() is the same as player.SetFullHearts(player)
 -- "collectible" just means it is a pedestal item
