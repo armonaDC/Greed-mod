@@ -7,9 +7,14 @@ local treasureRoomIndex = 85 --value found from in game console
 local shopRoomIndex = game:GetLevel():QueryRoomTypeIndex(RoomType.ROOM_SHOP, false, rng, false)
 local curseRoomIndex = game:GetLevel():QueryRoomTypeIndex(RoomType.ROOM_CURSE, false, rng, false)
 local bossItemRoomIndex = 98 --value found from in game console
+-- BossRoomVisited = false
+-- TreasureRoomVisited = false
 
 function mod:Teleport(roomIndex)
     game:StartRoomTransition(roomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, game:GetPlayer(0), -1) --teleports isaac to room index
+
+    -- if game:GetLevel():GetRoomByIdx(98, -1) then BossRoomVisited = true end
+    -- if game:GetLevel():GetRoomByIdx(85, -1) then TreasureRoomVisited = true end
 end
 
 function mod:FindAndPrintItems()
@@ -19,19 +24,22 @@ function mod:FindAndPrintItems()
 end
 
 function mod:StartMod()
+    print("Aperture's Greed Mod Started")
+    -- NEW_ROOM triggers before POST_UPDATE
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(bossItemRoomIndex))
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
 
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(treasureRoomIndex))
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
 
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(shopRoomIndex))
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
 
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(curseRoomIndex))
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
+    mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.FindAndPrintItems)
 
     mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(startRoomIndex))
+    print("Aperture's Greed Mod Ended")
 end
 
 function mod:PrintItems(table)
