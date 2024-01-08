@@ -12,40 +12,26 @@ function mod:Teleport(roomIndex)
     game:StartRoomTransition(roomIndex,Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, game:GetPlayer(0), -1) --teleports isaac to room index
 end
 
-function mod:FindAndPrintItems(count)
+function mod:FindAndPrintItems()
     local itemTable = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, -1, false, false)
     --finds collectibles in a room and puts them in an array or "table" in lua
     mod:PrintItems(itemTable) --prints collectibleID to game console
-
-    if count == 1 then mod:Next1() end
-    if count == 2 then mod:Next2() end
-    if count == 3 then mod:Next3() end
-    if count == 4 then mod:Final() end
-
 end
 
 function mod:StartMod()
-    mod:Teleport(bossItemRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod:FindAndPrintItems(1))
-end
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(bossItemRoomIndex))
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
-function mod:Next1()
-    mod:Teleport(treasureRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod:FindAndPrintItems(2))
-end
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(treasureRoomIndex))
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
-function mod:Next2()
-    mod:Teleport(shopRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod:FindAndPrintItems(3))
-end
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(shopRoomIndex))
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
-function mod:Next3()
-    mod:Teleport(curseRoomIndex)
-    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod:FindAndPrintItems(4))
-end
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(curseRoomIndex))
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.FindAndPrintItems)
 
-function mod:Final()
-    mod:Teleport(startRoomIndex)
+    mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Teleport(startRoomIndex))
 end
 
 function mod:PrintItems(table)
