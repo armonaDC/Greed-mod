@@ -19,7 +19,7 @@ function mod:TeleportToTreasureRoom()
 end
 
 function mod:TeleportToShop()
-    Game():StartRoomTransition(shopRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1)
+    Game():GetPlayer(0):UseCard(Card.CARD_HERMIT)
 end
 
 function mod:TeleportToCurseRoom()
