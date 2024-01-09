@@ -47,6 +47,8 @@ function mod:StartMod()
     Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToShop)
     Scheduler.Schedule(ONE_SECOND * 6, mod.FindAndPrintItems)
 
+    Scheduler.Empty()
+
     Scheduler.Schedule(ONE_SECOND * 10, mod.TeleportToCurseRoom)
     Scheduler.Schedule(ONE_SECOND * 12, mod.FindAndPrintItems)
 
