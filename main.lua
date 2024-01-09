@@ -39,19 +39,19 @@ end
 function mod:StartMod()
     print("Aperture's Greed Mod Started")
     --AddCallback does not allow function parameters, so each function called must have no arguments 
-    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToBossItemRoom)
-    Scheduler.Schedule(ONE_SECOND * 5, mod.FindAndPrintItems)
+    Scheduler.Schedule(ONE_SECOND, mod.TeleportToBossItemRoom)
+    Scheduler.Schedule(ONE_SECOND * 2, mod.FindAndPrintItems)
 
-    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToTreasureRoom)
-    Scheduler.Schedule(ONE_SECOND * 5, mod.FindAndPrintItems)
+    Scheduler.Schedule(ONE_SECOND * 3, mod.TeleportToTreasureRoom)
+    Scheduler.Schedule(ONE_SECOND * 4, mod.FindAndPrintItems)
 
     Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToShop)
-    Scheduler.Schedule(ONE_SECOND * 5, mod.FindAndPrintItems)
+    Scheduler.Schedule(ONE_SECOND * 6, mod.FindAndPrintItems)
 
-    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToCurseRoom)
-    Scheduler.Schedule(ONE_SECOND * 5, mod.FindAndPrintItems)
+    Scheduler.Schedule(ONE_SECOND * 7, mod.TeleportToCurseRoom)
+    Scheduler.Schedule(ONE_SECOND * 8, mod.FindAndPrintItems)
 
-    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToStartRoom)
+    Scheduler.Schedule(ONE_SECOND * 9, mod.TeleportToStartRoom)
     print("Aperture's Greed Mod Ended")
 end
 
