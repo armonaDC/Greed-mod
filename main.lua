@@ -3,11 +3,10 @@ local Scheduler = require("./scheduler.lua") --import scheduler lua file
 Scheduler.Init(mod)
 ONE_SECOND = 30 --one second in game is 30 frames, used for scheduler
 
-local rng = RNG() --rng object used for QueryRoomTypeIndex
-local startRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_DEFAULT, false, rng, false) --room type found from in Game() console
+local startRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_DEFAULT, false, RNG(), false) --room type found from in Game() console
 local treasureRoomIndex = 85 --value found from in Game() console
-local shopRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_SHOP, false, rng, false)
-local curseRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_CURSE, false, rng, false)
+local shopRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_SHOP, false, RNG(), false)
+local curseRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_CURSE, false, RNG(), false)
 local bossItemRoomIndex = 98 --value found from in Game() console
 
 function mod:TeleportToBossItemRoom()
@@ -31,9 +30,9 @@ function mod:TeleportToStartRoom()
 end
 
 function mod:FindAndPrintItems()
-    local itemTable = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, -1, false, false)
+    ItemTable = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, -1, false, false)
     --finds collectibles in a room and puts them in an array or "table" in lua
-    mod:PrintItems(itemTable) --prints collectibleID to Game() console
+    mod:PrintItems(ItemTable) --prints collectibleID to Game() console
 end
 
 function mod:StartMod()
@@ -55,11 +54,12 @@ function mod:StartMod()
     print("Aperture's Greed Mod Ended")
 end
 
-function mod:PrintItems(table)
+function mod:PrintItems(ItemTable)
     print("PrintItems started")
     for i=1,4 do --lua starts counting from 1, checking up to 4 pedestal items but idk if this is even possible
-        if table[i] ~= nil then --check to make sure something exists at that index
-            print(table[i].Subtype)
+        if ItemTable[i] ~= nil then --check to make sure something exists at that index
+            print(ItemTable[i].Type)
+            print(ItemTable[i].Subtype)
             --prints entity subtype only, we know that the Type is a pickup, and that the variant is a collectible due to Isaac.FindByType parameters we set
             --the subtype number will correspond to the CollectibleID for the item
         end
