@@ -47,10 +47,10 @@ function mod:StartMod()
     Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToShop)
     Scheduler.Schedule(ONE_SECOND * 6, mod.FindAndPrintItems)
 
-    Scheduler.Schedule(ONE_SECOND * 7, mod.TeleportToCurseRoom)
-    Scheduler.Schedule(ONE_SECOND * 8, mod.FindAndPrintItems)
+    Scheduler.Schedule(ONE_SECOND * 10, mod.TeleportToCurseRoom)
+    Scheduler.Schedule(ONE_SECOND * 12, mod.FindAndPrintItems)
 
-    Scheduler.Schedule(ONE_SECOND * 9, mod.TeleportToStartRoom)
+    Scheduler.Schedule(ONE_SECOND * 14, mod.TeleportToStartRoom)
     print("Aperture's Greed Mod Ended")
 end
 
@@ -58,7 +58,8 @@ function mod:PrintItems(ItemTable)
     print("PrintItems started")
     for i=1,4 do --lua starts counting from 1, checking up to 4 pedestal items but idk if this is even possible
         if ItemTable[i] ~= nil then --check to make sure something exists at that index
-            print(ItemTable[i].Type)
+            print(ItemTable[i].EntityType)
+            print(ItemTable[i].variant)
             print(ItemTable[i].Subtype)
             --prints entity subtype only, we know that the Type is a pickup, and that the variant is a collectible due to Isaac.FindByType parameters we set
             --the subtype number will correspond to the CollectibleID for the item
