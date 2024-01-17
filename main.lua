@@ -3,26 +3,30 @@ local Scheduler = require("./scheduler.lua") --import scheduler lua file
 Scheduler.Init(mod)
 ONE_SECOND = 30 --one second in game is 30 frames, used for scheduler
 
-local startRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_DEFAULT, false, RNG(), false) --room type found from in Game() console
-local treasureRoomIndex = 85 --value found from in Game() console
+local startRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_DEFAULT, false, RNG(), false) --room type found from in game console
+local treasureRoomIndex = 85 --value found from in game console
 local shopRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_SHOP, false, RNG(), false)
 local curseRoomIndex = Game():GetLevel():QueryRoomTypeIndex(RoomType.ROOM_CURSE, false, RNG(), false)
-local bossItemRoomIndex = 98 --value found from in Game() console
+local bossItemRoomIndex = 98 --value found from in game console
 
 function mod:TeleportToBossItemRoom()
     Game():StartRoomTransition(bossItemRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1) --teleports isaac to boss item room
+    VisitBossItemRoom = true
 end
 
 function mod:TeleportToTreasureRoom()
     Game():StartRoomTransition(treasureRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1)
+    VisitTreasureRoom = true
 end
 
 function mod:TeleportToShop()
-    Game():GetPlayer(0):UseCard(Card.CARD_HERMIT)
+    Game():StartRoomTransition(shopRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1)
+    VisitShop = true
 end
 
 function mod:TeleportToCurseRoom()
     Game():StartRoomTransition(curseRoomIndex, Direction.NO_DIRECTION, RoomTransitionAnim.PORTAL_TELEPORT, Game():GetPlayer(0), -1)
+    VisitCurseRoom = true
 end
 
 function mod:TeleportToStartRoom()
@@ -32,32 +36,9 @@ end
 function mod:FindAndPrintItems()
     ItemTable = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, -1, false, false)
     --finds collectibles in a room and puts them in an array or "table" in lua
-    mod:PrintItems(ItemTable) --prints collectibleID to Game() console
-end
 
-function mod:StartMod()
-    print("Aperture's Greed Mod Started")
-    --AddCallback does not allow function parameters, so each function called must have no arguments 
-    Scheduler.Schedule(ONE_SECOND, mod.TeleportToBossItemRoom)
-    Scheduler.Schedule(ONE_SECOND * 2, mod.FindAndPrintItems)
-
-    Scheduler.Schedule(ONE_SECOND * 3, mod.TeleportToTreasureRoom)
-    Scheduler.Schedule(ONE_SECOND * 4, mod.FindAndPrintItems)
-
-    Scheduler.Schedule(ONE_SECOND * 5, mod.TeleportToShop)
-    Scheduler.Schedule(ONE_SECOND * 6, mod.FindAndPrintItems)
-
-    Scheduler.Empty()
-
-    Scheduler.Schedule(ONE_SECOND * 10, mod.TeleportToCurseRoom)
-    Scheduler.Schedule(ONE_SECOND * 12, mod.FindAndPrintItems)
-
-    Scheduler.Schedule(ONE_SECOND * 14, mod.TeleportToStartRoom)
-    print("Aperture's Greed Mod Ended")
-end
-
-function mod:PrintItems(ItemTable)
-    print("PrintItems started")
+    --prints collectibleID to game console 
+    print("PrintItems started") --printed in game console
     for i=1,4 do --lua starts counting from 1, checking up to 4 pedestal items but idk if this is even possible
         if ItemTable[i] ~= nil then --check to make sure something exists at that index
             print(ItemTable[i].EntityType)
@@ -69,13 +50,26 @@ function mod:PrintItems(ItemTable)
     end
 end
 
-function mod:ConditionToStartMod()
-    if ((Game():GetLevel():GetStage() == 1) and (Game():IsGreedMode() == true)) then
-        mod:StartMod()
+function mod:OnNewRoom()
+    mod:FindAndPrintItems()
+
+    if VisitBossItemRoom == false then mod:TeleportToBossItemRoom() end
+    if VisitTreasureRoom == false then mod:TeleportToTreasureRoom() end
+    if VisitShop == false then mod:TeleportToShop() end
+    if VisitCurseRoom == false then mod:TeleportToCurseRoom() end
+
+    if (VisitBossItemRoom == true and VisitTreasureRoom == true and VisitShop == true and VisitCurseRoom == true) then
+        mod:TeleportToStartRoom()
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, mod.ConditionToStartMod)
+function mod:OnUpdate()
+    DontKnowWhatToPutHere = true
+end
+
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.OnUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.OnNewRoom)
 
 -- player:SetFullHearts() is the same as player.SetFullHearts(player)
 -- "collectible" just means it is a pedestal item
+--AddCallback does not allow function parameters, so each function called must have no arguments 
