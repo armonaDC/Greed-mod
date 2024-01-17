@@ -57,23 +57,23 @@ end
 function mod:OnUpdate()
 
     if VisitBossItemRoom == false then
-        Scheduler.Schedule(ONE_SECOND, mod.TeleportToBossItemRoom)
+        mod:TeleportToBossItemRoom()
     end
 
     if VisitTreasureRoom == false then
-        Scheduler.Schedule(ONE_SECOND, mod.TeleportToTreasureRoom)
+        mod:TeleportToTreasureRoom()
     end
 
     if VisitShop == false then
-        Scheduler.Schedule(ONE_SECOND, mod.TeleportToShop)
+        mod:TeleportToShop()
     end
 
     if VisitCurseRoom == false then
-        Scheduler.Schedule(ONE_SECOND, mod.TeleportToCurseRoom)
+        mod:TeleportToCurseRoom()
     end
 
     if (VisitBossItemRoom == true and VisitTreasureRoom == true and VisitShop == true and VisitCurseRoom == true) then
-        Scheduler.Schedule(ONE_SECOND, mod.TeleportToStartRoom)
+        mod:TeleportToStartRoom()
     end
 end
 
