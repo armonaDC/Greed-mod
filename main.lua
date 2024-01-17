@@ -44,7 +44,7 @@ function mod:FindAndPrintItems()
             print(ItemTable[i].EntityType)
             print(ItemTable[i].variant)
             print(ItemTable[i].Subtype)
-            --prints entity subtype only, we know that the Type is a pickup, and that the variant is a collectible due to Isaac.FindByType parameters we set
+            --prints entity subtype only (in final version), we know that the Type is a pickup, and that the variant is a collectible due to Isaac.FindByType parameters we set
             --the subtype number will correspond to the CollectibleID for the item
         end
     end
@@ -52,19 +52,29 @@ end
 
 function mod:OnNewRoom()
     mod:FindAndPrintItems()
-
-    if VisitBossItemRoom == false then mod:TeleportToBossItemRoom() end
-    if VisitTreasureRoom == false then mod:TeleportToTreasureRoom() end
-    if VisitShop == false then mod:TeleportToShop() end
-    if VisitCurseRoom == false then mod:TeleportToCurseRoom() end
-
-    if (VisitBossItemRoom == true and VisitTreasureRoom == true and VisitShop == true and VisitCurseRoom == true) then
-        mod:TeleportToStartRoom()
-    end
 end
 
 function mod:OnUpdate()
-    DontKnowWhatToPutHere = true
+
+    if VisitBossItemRoom == false then
+        Scheduler.Schedule(ONE_SECOND, mod.TeleportToBossItemRoom)
+    end
+
+    if VisitTreasureRoom == false then
+        Scheduler.Schedule(ONE_SECOND, mod.TeleportToTreasureRoom)
+    end
+
+    if VisitShop == false then
+        Scheduler.Schedule(ONE_SECOND, mod.TeleportToShop)
+    end
+
+    if VisitCurseRoom == false then
+        Scheduler.Schedule(ONE_SECOND, mod.TeleportToCurseRoom)
+    end
+
+    if (VisitBossItemRoom == true and VisitTreasureRoom == true and VisitShop == true and VisitCurseRoom == true) then
+        Scheduler.Schedule(ONE_SECOND, mod.TeleportToStartRoom)
+    end
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.OnUpdate)
@@ -72,4 +82,5 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.OnNewRoom)
 
 -- player:SetFullHearts() is the same as player.SetFullHearts(player)
 -- "collectible" just means it is a pedestal item
---AddCallback does not allow function parameters, so each function called must have no arguments 
+-- AddCallback does not allow function parameters, so each function called must have no arguments
+-- Generally, each ModCallbacks paramter should only be typed once in code, with only one associated functions. This mod types UPDATE once and NEW_ROOM once
