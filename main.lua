@@ -41,8 +41,11 @@ function mod:FindAndPrintItems()
     print("PrintItems started") --printed in game console
     for i=1,4 do --lua starts counting from 1, checking up to 4 pedestal items but idk if this is even possible
         if ItemTable[i] ~= nil then --check to make sure something exists at that index
+---@diagnostic disable-next-line: undefined-field
             print(ItemTable[i].EntityType)
+---@diagnostic disable-next-line: undefined-field
             print(ItemTable[i].variant)
+---@diagnostic disable-next-line: undefined-field
             print(ItemTable[i].Subtype)
             --prints entity subtype only (in final version), we know that the Type is a pickup, and that the variant is a collectible due to Isaac.FindByType parameters we set
             --the subtype number will correspond to the CollectibleID for the item
